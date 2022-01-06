@@ -13,6 +13,16 @@ class SubscriptionsController < ApplicationController
         end
     end
 
+    def cancel
+        begin
+            sub = Subscription.find(params[:id])
+            sub.update(status: "Cancelled")
+            render json: SubscriptionSerializer.subscription(sub), status: 200
+        rescue ActiveRecord::RecordNotFound => error
+            render json: { "error": error.message }, status: 400
+        end
+    end
+
     # def create
     #     cust = Customer.find_by(id: params[:customer])
     #     tea = Tea.find_by(id: params[:tea])
