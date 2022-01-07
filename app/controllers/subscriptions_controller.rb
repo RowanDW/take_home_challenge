@@ -1,9 +1,6 @@
 class SubscriptionsController < ApplicationController
   def create
-    cust = Customer.find(params[:customer])
-    tea = Tea.find(params[:tea])
-    sub = Subscription.create!(title: params[:title], price: params[:price], status: 'Active', customer: cust,
-                               tea: tea)
+    sub = Subscription.create!(subscription_params)
     render json: SubscriptionSerializer.new(sub).serializable_hash, status: :ok
   rescue ActiveRecord::RecordInvalid => e
     render json: { "error": e.message }, status: :bad_request
@@ -12,7 +9,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def cancel
-    sub = Subscription.find(params[:id])
+    sub = Subscription.find(subscription_params[:id])
     sub.update(status: 'Cancelled')
     render json: SubscriptionSerializer.new(sub).serializable_hash, status: :ok
   rescue ActiveRecord::RecordNotFound => e
@@ -20,20 +17,15 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    cust = Customer.find(params[:customer])
+    cust = Customer.find(subscription_params[:id])
     render json: SubscriptionSerializer.new(cust.subscriptions).serializable_hash, status: :ok
   rescue ActiveRecord::RecordNotFound => e
     render json: { "error": e.message }, status: :bad_request
   end
+end
 
-  # def create
-  #     cust = Customer.find_by(id: params[:customer])
-  #     tea = Tea.find_by(id: params[:tea])
-  #     sub = Subscription.new(title: params[:title], price: params[:price], status: 'Active', customer: cust, tea: tea)
-  #     if sub.save
-  #         render json: SubscriptionSerializer.subscription(sub), status: 200
-  #     else
-  #         render json: { "error": sub.errors.full_messages.to_sentence }, status: 400
-  #     end
-  # end
+private
+
+def subscription_params
+  params.permit(:title, :price, :customer_id, :tea_id, :id)
 end

@@ -7,7 +7,7 @@ RSpec.describe 'subscribe customer endpoint' do
     end
 
     it 'can add a subscription ' do
-        post '/subscriptions', params: {customer: @customer.id, tea: @tea.id, title: "Sub 1", price: 100}
+        post '/subscriptions', params: {customer_id: @customer.id, tea_id: @tea.id, title: "Sub 1", price: 100}
         expect(response).to be_successful
 
         sub = JSON.parse(response.body, symbolize_names: true)
@@ -25,16 +25,16 @@ RSpec.describe 'subscribe customer endpoint' do
     end
 
     it 'can throw an error given bad inputs' do
-        post '/subscriptions', params: {customer: @customer.id, tea: @tea.id, title: "Sub 1"}
+        post '/subscriptions', params: {customer_id: @customer.id, tea_id: @tea.id, title: "Sub 1"}
         expect(response).to_not be_successful
 
         sub = JSON.parse(response.body, symbolize_names: true)
          expect(sub[:error]).to eq("Validation failed: Price can't be blank")
 
-        post '/subscriptions', params: {customer: 1, tea: @tea.id, title: "Sub 1", price: 300}
+        post '/subscriptions', params: {customer_id: 1, tea_id: @tea.id, title: "Sub 1", price: 300}
         expect(response).to_not be_successful
 
         sub = JSON.parse(response.body, symbolize_names: true)
-        expect(sub[:error]).to eq("Couldn't find Customer with 'id'=1")
+        expect(sub[:error]).to eq("Validation failed: Customer must exist")
     end
 end
