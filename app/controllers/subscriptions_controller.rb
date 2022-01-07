@@ -25,15 +25,4 @@ class SubscriptionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound => e
     render json: { "error": e.message }, status: :bad_request
   end
-
-  # def create
-  #     cust = Customer.find_by(id: params[:customer])
-  #     tea = Tea.find_by(id: params[:tea])
-  #     sub = Subscription.new(title: params[:title], price: params[:price], status: 'Active', customer: cust, tea: tea)
-  #     if sub.save
-  #         render json: SubscriptionSerializer.subscription(sub), status: 200
-  #     else
-  #         render json: { "error": sub.errors.full_messages.to_sentence }, status: 400
-  #     end
-  # end
 end

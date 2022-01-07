@@ -4,5 +4,5 @@ class Customer < ApplicationRecord
   validates :address, presence: true
   validates :email, uniqueness: true, presence: true
 
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
 end
