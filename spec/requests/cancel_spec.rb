@@ -4,7 +4,7 @@ RSpec.describe 'cancel subscription endpoint' do
     before :each do
         @customer = Customer.create!(first_name: "Rowan", last_name: "DeLong", email: "rowan@test.com", address: "123 st")
         @tea = Tea.create!(title: "Oolong", description: "this is a tea", temperature: 200, brew_time: 300)
-        @subscription= Subscription.create!(title: "Oolong sub", price: 15.50, status: "Active", tea: @tea, customer: @customer)
+        @subscription = Subscription.create!(title: "Oolong sub", price: 15.50, status: "Active", tea: @tea, customer: @customer)
     end
 
     it 'can cancel a subscription ' do
@@ -15,7 +15,7 @@ RSpec.describe 'cancel subscription endpoint' do
 
         expect(sub).to be_a(Hash)
         expect(sub[:data]).to be_a(Hash)
-        expect(sub[:data][:id]).to eq(@subscription.id)
+        expect(sub[:data][:id]).to eq(@subscription.id.to_s)
         expect(sub[:data][:type]).to eq("subscription")
         expect(sub[:data][:attributes]).to be_a(Hash)
         expect(sub[:data][:attributes][:title]).to eq("Oolong sub")
