@@ -10,7 +10,7 @@ RSpec.describe 'get all customer subscriptions endpoint' do
     end
 
     it 'can get all subscriptions ' do
-        get '/subscriptions', params: {customer: @customer.id}
+        get '/subscriptions', params: {id: @customer.id}
         expect(response).to be_successful
 
         sub = JSON.parse(response.body, symbolize_names: true)
@@ -28,7 +28,7 @@ RSpec.describe 'get all customer subscriptions endpoint' do
     end
 
     it 'can throw an error given bad inputs' do
-        get '/subscriptions', params: {customer: 0}
+        get '/subscriptions', params: {id: 0}
         expect(response).to_not be_successful
 
         sub = JSON.parse(response.body, symbolize_names: true)
