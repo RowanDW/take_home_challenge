@@ -27,5 +27,5 @@ end
 private
 
 def subscription_params
-    params.permit(:title, :price, :customer_id, :tea_id, :id)
+  params.permit(:title, :price, :customer_id, :tea_id, :id)
 end
